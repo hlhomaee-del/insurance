@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insurance Basics — Medical Billing</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900;1000&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f1628;--ink2:#1e2d4f;
+  --bg:#f0f4ff;--white:#fff;--border:#dde3f0;--muted:#64748b;
+  --blue:#2563eb;--blue-d:#1d4ed8;--blue-l:#dbeafe;--blue-m:#93c5fd;
+  --teal:#0d9488;--teal-l:#ccfbf1;--teal-m:#5eead4;
+  --amber:#d97706;--amber-l:#fef3c7;--amber-m:#fcd34d;
+  --rose:#e11d48;--rose-l:#ffe4e6;--rose-m:#fda4af;
+  --purple:#7c3aed;--purple-l:#ede9fe;--purple-m:#a78bfa;
+  --green:#059669;--green-l:#d1fae5;--green-m:#34d399;
+  --orange:#ea580c;--orange-l:#ffedd5;--orange-m:#fb923c;
+  --pink:#db2777;--pink-l:#fce7f3;--pink-m:#f9a8d4;
+  --indigo:#4338ca;--indigo-l:#e0e7ff;--indigo-m:#818cf8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#0f1628 0%,#1a2d5a 40%,#1e3a70 100%);padding:2.5rem 1.5rem 4rem;text-align:center;position:relative;overflow:hidden;}
+.hero-orbs{position:absolute;inset:0;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);opacity:.18;}
+.orb1{width:300px;height:300px;background:#2563eb;top:-80px;left:-60px;}
+.orb2{width:250px;height:250px;background:#7c3aed;top:20px;right:-40px;}
+.orb3{width:200px;height:200px;background:#0d9488;bottom:-40px;left:30%;}
+.hero-wave{position:absolute;bottom:-1px;left:0;right:0;height:50px;background:var(--bg);clip-path:ellipse(60% 100% at 50% 100%);}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 16px;border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);margin-bottom:1rem;}
+.hero h1{font-size:clamp(24px,5vw,48px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:.6rem;}
+.hero h1 span{background:linear-gradient(90deg,#60a5fa,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero p{font-size:14px;color:rgba(255,255,255,.6);max-width:500px;margin:0 auto 1.5rem;}
+.hero-pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.hpill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;color:rgba(255,255,255,.75);}
+
+/* ── NAV ── */
+.nav{background:var(--white);border-bottom:2px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.nav::-webkit-scrollbar{display:none;}
+.ntab{flex-shrink:0;padding:.9rem 1.2rem;font-size:13px;font-weight:800;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px;}
+.ntab:hover{color:var(--ink);}
+.ntab.on{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* ── PAGES ── */
+.page{display:none;max-width:980px;margin:0 auto;padding:2rem 1rem 4rem;}
+.page.on{display:block;}
+
+/* ── TERM CARDS GRID ── */
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;margin-bottom:2rem;}
+.term-card{border-radius:16px;padding:1.4rem 1.3rem;border:2px solid;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.term-card::after{content:'';position:absolute;bottom:0;right:0;width:80px;height:80px;border-radius:50%;opacity:.08;background:currentColor;transform:translate(25px,25px);}
+.term-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.12);}
+.tc-emoji{font-size:28px;margin-bottom:.6rem;display:block;}
+.tc-name{font-size:17px;font-weight:900;margin-bottom:.4rem;}
+.tc-def{font-size:13px;line-height:1.6;font-weight:600;}
+.tc-example{font-size:12px;margin-top:.6rem;padding:.5rem .75rem;border-radius:8px;font-weight:600;line-height:1.5;}
+.tc-expand{display:none;margin-top:.75rem;padding-top:.75rem;border-top:1.5px dashed;font-size:12.5px;line-height:1.7;font-weight:600;}
+.term-card.open .tc-expand{display:block;}
+.tc-tag{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:20px;margin-bottom:.5rem;}
+
+/* ── SCENARIO EXPLORER ── */
+.scenario-wrap{background:var(--white);border-radius:20px;border:2px solid var(--border);overflow:hidden;margin-bottom:2rem;}
+.scenario-header{padding:1.5rem;background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);color:#fff;}
+.scenario-header h2{font-size:20px;font-weight:900;margin-bottom:.3rem;}
+.scenario-header p{font-size:13px;color:rgba(255,255,255,.6);}
+.scenario-selector{display:flex;gap:8px;padding:1rem 1.25rem;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg);}
+.scen-btn{padding:7px 16px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all .15s;color:var(--muted);}
+.scen-btn:hover{border-color:var(--blue);color:var(--blue);}
+.scen-btn.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+.scenario-body{padding:1.5rem;}
+.patient-info{display:flex;align-items:center;gap:14px;background:var(--bg);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;border:1.5px solid var(--border);}
+.patient-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.patient-meta{flex:1;}
+.patient-name{font-size:15px;font-weight:900;}
+.patient-plan{font-size:12px;color:var(--muted);font-weight:600;}
+.cost-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.25rem;}
+.cost-box{border-radius:12px;padding:1rem;text-align:center;border:2px solid;}
+.cost-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.3rem;}
+.cost-amount{font-size:22px;font-weight:900;font-family:'DM Mono',monospace;}
+.cost-sub{font-size:11px;font-weight:600;margin-top:.25rem;opacity:.8;}
+.flow-arrow{display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted);}
+.explanation-steps{display:flex;flex-direction:column;gap:10px;}
+.exp-step{display:flex;gap:12px;align-items:flex-start;padding:.85rem 1rem;border-radius:10px;border:1.5px solid;}
+.step-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;flex-shrink:0;color:#fff;}
+.step-text{font-size:13px;font-weight:600;line-height:1.6;flex:1;}
+.step-text b{font-weight:900;}
+
+/* ── VISUAL METER ── */
+.meter-section{background:var(--white);border-radius:20px;border:2px solid var(--border);padding:1.5rem;margin-bottom:2rem;}
+.meter-title{font-size:18px;font-weight:900;margin-bottom:.25rem;}
+.meter-sub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;}
+.meter-wrap{position:relative;height:48px;border-radius:12px;background:#f1f5f9;border:2px solid var(--border);overflow:hidden;margin-bottom:1.25rem;}
+.meter-bar{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;transition:width .6s ease;white-space:nowrap;padding:0 12px;}
+.meter-labels{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:.5rem;}
+.meter-slider-wrap{margin:1.25rem 0;}
+.slider-label{font-size:13px;font-weight:800;margin-bottom:.5rem;display:flex;justify-content:space-between;}
+input[type=range]{width:100%;accent-color:var(--blue);}
+.meter-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:1rem;}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;}
+.legend-dot{width:14px;height:14px;border-radius:4px;flex-shrink:0;}
+
+/* ── INSURANCE TYPES ── */
+.ins-types{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:2rem;}
+.ins-card{border-radius:16px;padding:1.25rem;border:2px solid;position:relative;overflow:hidden;}
+.ins-card::before{content:attr(data-abbr);position:absolute;top:-8px;right:10px;font-size:60px;font-weight:900;opacity:.06;font-family:'DM Mono',monospace;}
+.ins-name{font-size:15px;font-weight:900;margin-bottom:.3rem;}
+.ins-abbr{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:2px 8px;border-radius:5px;display:inline-block;margin-bottom:.5rem;}
+.ins-def{font-size:12.5px;font-weight:600;line-height:1.6;}
+.ins-pros{margin-top:.75rem;font-size:12px;font-weight:600;line-height:1.6;}
+.pros-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+
+/* ── DRAG GAME ── */
+.drag-game{background:var(--white);border-radius:20px;border:2px solid var(--border);overflow:hidden;margin-bottom:2rem;}
+.drag-header{padding:1.25rem 1.5rem;background:linear-gradient(135deg,var(--purple) 0%,var(--indigo) 100%);color:#fff;}
+.drag-header h2{font-size:18px;font-weight:900;margin-bottom:.2rem;}
+.drag-header p{font-size:13px;opacity:.75;}
+.drag-body{padding:1.5rem;}
+.drag-scenarios{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1.25rem;}
+@media(max-width:560px){.drag-scenarios{grid-template-columns:1fr;}}
+.drag-scenario{border-radius:12px;padding:1rem;border:2px dashed var(--border);background:var(--bg);min-height:70px;transition:all .15s;}
+.drag-scenario.drag-over{border-color:var(--purple);background:var(--purple-l);}
+.drag-scenario.correct{border-color:var(--green);background:var(--green-l);border-style:solid;}
+.drag-scenario.wrong{border-color:var(--rose);background:var(--rose-l);border-style:solid;animation:shake .3s;}
+.ds-title{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;}
+.ds-text{font-size:13px;font-weight:700;line-height:1.5;}
+.ds-drop{margin-top:.5rem;min-height:32px;font-size:12px;color:var(--muted);font-weight:600;font-style:italic;}
+.drag-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;}
+.drag-chip{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:800;cursor:grab;user-select:none;transition:all .15s;border:2px solid;}
+.drag-chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.drag-chip.dragging{opacity:.4;}
+.drag-chip.used{opacity:.3;cursor:default;pointer-events:none;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.drag-score{display:flex;align-items:center;gap:12px;font-size:13px;font-weight:800;color:var(--muted);}
+
+/* ── QUIZ ── */
+.qprog{display:flex;align-items:center;gap:12px;margin-bottom:1.25rem;}
+.qp-track{flex:1;height:8px;background:var(--border);border-radius:4px;}
+.qp-fill{height:8px;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:4px;transition:width .4s;}
+.qp-lbl{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;}
+.qscore-d{font-family:'DM Mono',monospace;font-size:13px;color:var(--blue);}
+.qcard{background:var(--white);border-radius:16px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:1rem;animation:fadeUp .2s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.qcard-top{padding:1.1rem 1.25rem .85rem;border-bottom:1px solid var(--bg);}
+.qtag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:800;padding:2px 9px;border-radius:20px;margin-bottom:.5rem;}
+.qnum{font-size:12px;font-weight:800;color:var(--muted);}
+.qtext{font-size:15px;font-weight:700;line-height:1.6;margin-top:.2rem;}
+.qopts{padding:.75rem 1.25rem 1rem;display:flex;flex-direction:column;gap:8px;}
+.qopt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-radius:10px;border:1.5px solid var(--border);background:#fafbff;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--ink);text-align:left;line-height:1.5;transition:all .12s;}
+.qopt:hover:not(.locked){background:var(--blue-l);border-color:var(--blue-m);color:#1e3a8a;}
+.qltr{flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--border);color:var(--muted);font-family:'DM Mono',monospace;font-size:10px;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .12s;font-weight:500;}
+.qopt:hover:not(.locked) .qltr{background:var(--blue);color:#fff;}
+.qopt.correct{background:var(--green-l);border-color:var(--green-m);color:var(--green);}
+.qopt.correct .qltr{background:var(--green);color:#fff;}
+.qopt.wrong{background:var(--rose-l);border-color:var(--rose-m);color:var(--rose);}
+.qopt.wrong .qltr{background:var(--rose);color:#fff;}
+.qopt.locked{cursor:default;}
+.rat-wrap{margin:0 1.25rem 1.25rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);display:none;}
+.rat-wrap.show{display:block;}
+.rat-row{display:flex;gap:8px;align-items:flex-start;padding:8px 12px;font-size:12.5px;font-weight:600;line-height:1.5;border-bottom:1px solid rgba(0,0,0,.04);}
+.rat-row:last-child{border-bottom:none;}
+.rat-row.rok{background:var(--green-l);color:var(--green);}
+.rat-row.rno{background:var(--rose-l);color:var(--rose);}
+.ri{font-size:13px;font-weight:800;flex-shrink:0;margin-top:1px;}
+.nbtn{margin:0 1.25rem 1.25rem;display:none;}
+.nbtn.show{display:block;}
+.nbtn button{padding:9px 22px;border-radius:10px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;}
+.result-box{background:var(--white);border-radius:20px;border:2px solid var(--green-m);padding:2.5rem 1.5rem;text-align:center;}
+.rb-score{font-size:72px;font-weight:900;color:var(--ink);line-height:1;}
+.rb-pct{font-family:'DM Mono',monospace;font-size:24px;color:var(--blue);margin:.25rem 0 .6rem;}
+.rb-msg{font-size:15px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;}
+.rb-cats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:1.5rem;}
+.rb-cat{padding:5px 14px;border-radius:8px;font-size:12px;font-weight:800;border:1.5px solid;}
+.rb-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.rb-btn{padding:10px 24px;border-radius:10px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;border:none;}
+.rb-btn.p{background:var(--ink);color:#fff;}
+.rb-btn.o{background:var(--bg);color:var(--ink);border:1.5px solid var(--border);}
+
+/* ── SECTION LABELS ── */
+.sec-label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.75rem;}
+.sec-title{font-size:22px;font-weight:900;margin-bottom:.3rem;}
+.sec-sub{font-size:14px;color:var(--muted);margin-bottom:1.5rem;line-height:1.6;}
+hr.divider{border:none;border-top:2px solid var(--border);margin:2rem 0;}
+
+/* ── FLASH CARDS ── */
+.fc-nav-row{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap;}
+.fc-sel{padding:7px 12px;border-radius:8px;border:1.5px solid var(--border);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;background:var(--white);cursor:pointer;}
+.fc-hint{font-size:12px;color:var(--muted);text-align:center;margin-bottom:.75rem;font-weight:600;}
+.flashcard{perspective:900px;height:180px;cursor:pointer;margin-bottom:1.25rem;}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s;}
+.fc-inner.flipped{transform:rotateY(180deg);}
+.fc-face{position:absolute;inset:0;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
+.fc-front{background:linear-gradient(135deg,var(--ink) 0%,var(--ink2) 100%);color:#fff;border:2px solid rgba(255,255,255,.1);}
+.fc-emoji{font-size:28px;margin-bottom:.5rem;}
+.fc-q{font-size:17px;font-weight:900;text-align:center;line-height:1.3;}
+.fc-flip-hint{font-size:11px;color:rgba(255,255,255,.45);margin-top:.5rem;font-weight:600;}
+.fc-back{transform:rotateY(180deg);background:var(--white);border:2px solid var(--blue-m);}
+.fc-ans{font-size:16px;font-weight:900;color:var(--blue);text-align:center;margin-bottom:.4rem;}
+.fc-detail{font-size:12px;color:var(--muted);text-align:center;line-height:1.5;font-weight:600;}
+.fc-nav{display:flex;align-items:center;justify-content:center;gap:14px;}
+.fc-nav button{padding:8px 22px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;}
+.fc-nav button:hover{background:var(--bg);}
+.fc-pos{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);min-width:60px;text-align:center;}
+
+@media(max-width:500px){.terms-grid{grid-template-columns:1fr;}.cost-flow{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-orbs"><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
+  <div class="hero-badge">💡 Medical Billing Fundamentals</div>
+  <h1>Insurance <span>Basics</span><br>Made Simple</h1>
+  <p>Everything billers need to know — premiums, deductibles, copays, coinsurance, and more — with real examples and interactive practice</p>
+  <div class="hero-pills">
+    <span class="hpill">📖 15 Key Terms</span>
+    <span class="hpill">🎭 Real Scenarios</span>
+    <span class="hpill">🎯 Matching Game</span>
+    <span class="hpill">🃏 Flashcards</span>
+    <span class="hpill">✏️ 20 Quiz Questions</span>
+  </div>
+  <div class="hero-wave"></div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="ntab on" onclick="showPage('terms',this)">📖 Key Terms</div>
+  <div class="ntab" onclick="showPage('scenario',this)">🎭 Scenarios</div>
+  <div class="ntab" onclick="showPage('meter',this)">📊 Cost Calculator</div>
+  <div class="ntab" onclick="showPage('types',this)">🏥 Plan Types</div>
+  <div class="ntab" onclick="showPage('game',this)">🎯 Matching Game</div>
+  <div class="ntab" onclick="showPage('flash',this)">🃏 Flashcards</div>
+  <div class="ntab" onclick="showPage('quiz',this)">✏️ Quiz Me</div>
+</div>
+
+<!-- ══════════ PAGE 1: KEY TERMS ══════════ -->
+<div id="pg-terms" class="page on">
+  <div class="sec-label">Section 1</div>
+  <div class="sec-title">The 15 Insurance Terms Every Biller Must Know</div>
+  <div class="sec-sub">Click any card to expand it and see a real-world billing example.</div>
+  <div class="terms-grid" id="termsGrid"></div>
+</div>
+
+<!-- ══════════ PAGE 2: SCENARIOS ══════════ -->
+<div id="pg-scenario" class="page">
+  <div class="sec-label">Section 2</div>
+  <div class="sec-title">Real Patient Scenarios — See How the Money Flows</div>
+  <div class="sec-sub">Select a patient scenario to see exactly how their insurance kicks in, what they pay, and what the insurer pays.</div>
+  <div class="scenario-wrap">
+    <div class="scenario-header">
+      <h2>💰 Cost Breakdown Explorer</h2>
+      <p>Watch the money flow from billed charge → what insurance pays → what the patient owes</p>
+    </div>
+    <div class="scenario-selector" id="scenSelector"></div>
+    <div class="scenario-body" id="scenBody"></div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 3: METER ══════════ -->
+<div id="pg-meter" class="page">
+  <div class="sec-label">Section 3</div>
+  <div class="sec-title">Interactive Cost Calculator</div>
+  <div class="sec-sub">Move the sliders to see how deductibles, copays, coinsurance, and out-of-pocket maximums work together.</div>
+  <div class="meter-section">
+    <h3 style="font-size:16px;font-weight:800;margin-bottom:1rem;">🏥 How much of your deductible have you met?</h3>
+    <div class="meter-labels"><span>$0</span><span id="dedLabel">$1,500 deductible</span></div>
+    <div class="meter-wrap"><div class="meter-bar" id="dedBar" style="background:linear-gradient(90deg,#2563eb,#7c3aed);width:0%">$0 met</div></div>
+    <div class="meter-slider-wrap">
+      <div class="slider-label"><span>Medical bills paid this year</span><span id="billsSpent">$0</span></div>
+      <input type="range" min="0" max="5000" value="0" step="50" oninput="updateMeter(this.value)">
+    </div>
+    <div id="meterExplanation"></div>
+    <div class="meter-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>Patient pays (deductible phase)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0d9488;"></div>Coinsurance phase (shared cost)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#059669;"></div>Out-of-pocket max reached (insurer pays 100%)</div>
+    </div>
+  </div>
+  <div class="meter-section">
+    <h3 style="font-size:16px;font-weight:800;margin-bottom:1.25rem;">🧮 Build Your Own Insurance Plan</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;" id="planBuilder"></div>
+    <div style="margin-top:1.5rem;background:var(--bg);border-radius:12px;padding:1.25rem;border:1.5px solid var(--border);" id="planResult"></div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 4: PLAN TYPES ══════════ -->
+<div id="pg-types" class="page">
+  <div class="sec-label">Section 4</div>
+  <div class="sec-title">Types of Health Insurance Plans</div>
+  <div class="sec-sub">From HMOs to PPOs — billers need to know how each plan type affects referrals, networks, and reimbursement.</div>
+  <div class="ins-types" id="insTypes"></div>
+  <hr class="divider">
+  <div class="sec-title" style="font-size:18px;">📋 Government Insurance Programs</div>
+  <div style="margin-top:1rem;" class="ins-types" id="govTypes"></div>
+</div>
+
+<!-- ══════════ PAGE 5: MATCHING GAME ══════════ -->
+<div id="pg-game" class="page">
+  <div class="sec-label">Section 5</div>
+  <div class="sec-title">🎯 Matching Game — Term to Definition</div>
+  <div class="sec-sub">Drag each insurance term tile and drop it on the correct definition. Wrong drops bounce back!</div>
+  <div class="drag-game">
+    <div class="drag-header">
+      <h2>Match the Term to the Scenario</h2>
+      <p>Drag the colored term from below onto the correct patient situation</p>
+    </div>
+    <div class="drag-body">
+      <div class="drag-score">
+        <span id="gameScore">✓ 0 matched</span>
+        <span id="gameWrong">✗ 0 wrong</span>
+        <button onclick="initGame()" style="margin-left:auto;padding:5px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;">↺ Reset</button>
+      </div>
+      <div style="margin:1rem 0;height:6px;background:var(--border);border-radius:3px;"><div id="gameBar" style="height:6px;background:linear-gradient(90deg,var(--purple),var(--blue));border-radius:3px;transition:width .4s;width:0%"></div></div>
+      <div class="drag-chips" id="gameChips"></div>
+      <div class="drag-scenarios" id="gameScenarios"></div>
+      <div id="gameResult" style="display:none;text-align:center;padding:1.5rem;background:var(--green-l);border-radius:12px;border:2px solid var(--green-m);margin-top:1rem;">
+        <div style="font-size:36px;font-weight:900;color:var(--green);" id="gameResultScore"></div>
+        <div style="font-size:14px;color:var(--green);font-weight:700;margin-top:.5rem;" id="gameResultMsg"></div>
+        <button onclick="initGame()" style="margin-top:1rem;padding:9px 22px;border-radius:10px;background:var(--ink);color:#fff;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;">↺ Play again</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 6: FLASHCARDS ══════════ -->
+<div id="pg-flash" class="page">
+  <div class="sec-label">Section 6</div>
+  <div class="sec-title">🃏 Flashcards</div>
+  <div class="sec-sub">Tap each card to flip and see the definition. Use the category filter to focus on one area.</div>
+  <div class="fc-nav-row">
+    <select class="fc-sel" id="fcCat" onchange="initFlash()">
+      <option value="all">All terms (15 cards)</option>
+      <option value="cost">Cost-sharing terms</option>
+      <option value="network">Network & access</option>
+      <option value="plan">Plan structure</option>
+      <option value="billing">Billing-specific</option>
+    </select>
+    <button onclick="shuffleFlash()" style="padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;">🔀 Shuffle</button>
+    <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);" id="fcCount">Card 1 of 15</span>
+  </div>
+  <p class="fc-hint">Click the card to flip it</p>
+  <div class="flashcard" onclick="flipCard()">
+    <div class="fc-inner" id="fcInner">
+      <div class="fc-face fc-front"><div class="fc-emoji" id="fcEmoji"></div><div class="fc-q" id="fcQ"></div><div class="fc-flip-hint">Tap to flip</div></div>
+      <div class="fc-face fc-back"><div class="fc-ans" id="fcAns"></div><div class="fc-detail" id="fcDetail"></div></div>
+    </div>
+  </div>
+  <div class="fc-nav">
+    <button onclick="fcMove(-1)">← Prev</button>
+    <span class="fc-pos" id="fcPos">1 / 15</span>
+    <button onclick="fcMove(1)">Next →</button>
+  </div>
+</div>
+
+<!-- ══════════ PAGE 7: QUIZ ══════════ -->
+<div id="pg-quiz" class="page">
+  <div class="sec-label">Section 7</div>
+  <div class="sec-title">✏️ Quiz — Test Your Knowledge</div>
+  <div class="sec-sub">NHA-style questions on insurance basics. Full rationale for every answer.</div>
+  <div id="quizWrap"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// DATA
+// ══════════════════════════════════════
+const TERMS = [
+  {id:'premium', cat:'cost', emoji:'💳', name:'Premium',
+   color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'#1e3a8a',
+   def:'The monthly amount you pay to have health insurance — whether or not you use it.',
+   example:'Maria pays $320/month to her employer for health insurance. That $320 is her premium.',
+   expand:'Premiums are paid regardless of whether you visit a doctor. Employers often pay part of the premium (employer contribution). On the CMS-1500, a biller must verify the patient is "active" — meaning premiums are current. If premiums are not paid, coverage can be terminated.',
+   billing:'Verifying premium payment status = eligibility verification step'},
+
+  {id:'deductible', cat:'cost', emoji:'🎯', name:'Deductible',
+   color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'#4c1d95',
+   def:'The amount you must pay OUT OF POCKET each year before insurance starts paying.',
+   example:'Patient has a $1,500 deductible. Their first $1,500 in medical bills is entirely their responsibility.',
+   expand:'Deductibles reset every plan year (usually January 1). While in the deductible phase, the patient pays the contractually adjusted rate — NOT the full billed charge. Family plans have both individual and family deductibles. Embedded deductible: each family member has their own. Aggregate deductible: the whole family shares one.',
+   billing:'Biller must check: "Has the deductible been met?" — affects patient responsibility calculation'},
+
+  {id:'copay', cat:'cost', emoji:'💵', name:'Copay (Co-payment)',
+   color:'#0d9488', bg:'#ccfbf1', border:'#5eead4', text:'#065f46',
+   def:'A FIXED dollar amount the patient pays at the time of service — does NOT change based on cost.',
+   example:'Patient owes $25 every time they see their primary care doctor, regardless of what was done.',
+   expand:'Copays are typically collected at the time of service. Most plans have different copays for: PCP visits, specialist visits, urgent care, emergency room, and prescriptions (tiers). Copays usually apply AFTER the deductible (though some plans have copays before the deductible). Copays count toward the out-of-pocket maximum.',
+   billing:'Billers collect copays at check-in. Waiving copays violates insurance contracts and may constitute fraud.'},
+
+  {id:'coinsurance', cat:'cost', emoji:'🔢', name:'Coinsurance',
+   color:'#ea580c', bg:'#ffedd5', border:'#fb923c', text:'#7c2d12',
+   def:'A PERCENTAGE the patient pays AFTER meeting their deductible. Insurance pays the rest.',
+   example:'80/20 plan: after the deductible, insurance pays 80%, patient pays 20% of each bill.',
+   expand:'Coinsurance is always expressed as a percentage split: 80/20, 70/30, 60/40. The first number is what the PAYER pays; the second is what the PATIENT pays. Coinsurance continues until the out-of-pocket maximum is reached. Coinsurance applies to the ALLOWED amount (not billed charge).',
+   billing:'On EOBs, coinsurance shows as patient responsibility. Billers balance bill the patient for this amount.'},
+
+  {id:'oopm', cat:'cost', emoji:'🛑', name:'Out-of-Pocket Maximum',
+   color:'#e11d48', bg:'#ffe4e6', border:'#fda4af', text:'#9f1239',
+   def:'The MOST the patient will ever pay in one plan year. After this, insurance pays 100%.',
+   example:'Patient hits their $5,000 OOP max in September. All covered services for the rest of the year are free to the patient.',
+   expand:'The OOP max includes deductibles, copays, and coinsurance. It does NOT include premiums, out-of-network costs (usually), or non-covered services. Under the ACA, the federal limit for 2024 is $9,450 for individuals. Verifying the OOP max is key for billing — once reached, patient liability drops to zero.',
+   billing:'Always check OOP max status during eligibility verification, especially late in the plan year.'},
+
+  {id:'allowed', cat:'billing', emoji:'📋', name:'Allowed Amount',
+   color:'#4338ca', bg:'#e0e7ff', border:'#818cf8', text:'#312e81',
+   def:'The MAXIMUM amount an insurance plan will pay for a service. Also called "contractual rate" or "fee schedule amount."',
+   example:'Doctor bills $500 for an office visit. Insurance\'s allowed amount is $180. The $320 difference is written off.',
+   expand:'The allowed amount is established through the provider\'s contract with the insurance company. Providers in-network agree to accept the allowed amount as payment in full. The difference between billed and allowed is called a contractual adjustment (write-off) — it cannot be billed to the patient. Coinsurance and deductibles are calculated on the allowed amount, NOT the billed charge.',
+   billing:'Allowed amount = basis for all patient cost-sharing calculations on the EOB/ERA (835 transaction).'},
+
+  {id:'writeoff', cat:'billing', emoji:'✏️', name:'Contractual Write-Off (Adjustment)',
+   color:'#db2777', bg:'#fce7f3', border:'#f9a8d4', text:'#831843',
+   def:'The amount SUBTRACTED from the billed charge to get to the allowed amount. In-network providers CANNOT bill patients for this difference.',
+   example:'Billed: $500. Allowed: $180. Write-off: $320. Patient is responsible for a portion of the $180 only.',
+   expand:'Writing off the contractual adjustment is a legal requirement of being an in-network provider. Billing a patient for the write-off difference is called "balance billing" — it is prohibited for in-network providers. Out-of-network providers CAN balance bill in most states.',
+   billing:'On the CMS-1500 and UB-04, adjust with PR (Patient Responsibility) and CO (Contractual Obligation) adjustment reason codes.'},
+
+  {id:'eob', cat:'billing', emoji:'📄', name:'EOB — Explanation of Benefits',
+   color:'#059669', bg:'#d1fae5', border:'#34d399', text:'#065f46',
+   def:'A document sent by the insurance company after processing a claim showing billed, allowed, what insurance paid, and what the patient owes.',
+   example:'Patient receives an EOB showing: Billed $500, Allowed $180, Paid $144, Patient owes $36 (20% coinsurance).',
+   expand:'The EOB is NOT a bill — it is an explanation. The electronic version is called ERA (Electronic Remittance Advice) — the 835 transaction. EOBs include adjustment reason codes (CARCs) and remark codes (RARCs) explaining payment decisions. Billers must reconcile EOBs against claims to identify denials, underpayments, and patient balances.',
+   billing:'Electronic EOB = ERA (835 transaction). Billers use it to post payments and identify patient balances.'},
+
+  {id:'network', cat:'network', emoji:'🌐', name:'Network (In-Network vs Out-of-Network)',
+   color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'#1e3a8a',
+   def:'Network = group of doctors/hospitals contracted with the insurance plan. In-network = lower costs. Out-of-network = higher or full cost.',
+   example:'Patient sees in-network PCP — pays $25 copay. Patient sees out-of-network specialist — pays 40% instead of 20%.',
+   expand:'Networks are established through contracts between providers and insurance companies. HMOs have the most restrictive networks. PPOs are more flexible. EPOs and HMOs generally provide NO coverage for out-of-network (except emergencies). Billers must verify network status before services — out-of-network surprises are a major billing problem.',
+   billing:'Network verification = step 2 of eligibility verification. Incorrect network claims are a leading cause of denials.'},
+
+  {id:'referral', cat:'network', emoji:'📨', name:'Referral',
+   color:'#d97706', bg:'#fef3c7', border:'#fcd34d', text:'#78350f',
+   def:'An authorization from a Primary Care Physician (PCP) to see a specialist. Required by HMOs — not needed in PPOs.',
+   example:'HMO patient needs to see a cardiologist. Without a referral from their PCP, the cardiology visit is NOT covered.',
+   expand:'Referrals are tracked by referral numbers and have expiration dates and visit limits. Missing referrals are one of the top reasons for claim denials in HMO plans. Billers must capture the referral number and include it on the claim. Retroactive referrals are sometimes allowed but not guaranteed.',
+   billing:'Referral number goes in Box 17b on the CMS-1500. Always verify before service.'},
+
+  {id:'auth', cat:'network', emoji:'✅', name:'Prior Authorization (Pre-Auth)',
+   color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'#4c1d95',
+   def:'Approval from the insurance company REQUIRED BEFORE certain services are performed. Without it, the claim may be denied.',
+   example:'Patient needs an MRI. Insurer requires prior auth. If the MRI is done without auth, the insurer denies the claim — patient is billed.',
+   expand:'Prior auth is required for: surgeries, high-cost imaging (MRI, CT, PET), specialty drugs, inpatient admissions, certain procedures. The auth has: an authorization number, service dates, procedure codes authorized, and number of visits allowed. Auth ≠ guarantee of payment — the service must also be medically necessary and properly coded.',
+   billing:'Auth number goes in Box 23 on CMS-1500. Missing or expired auth = top denial reason.'},
+
+  {id:'coordination', cat:'plan', emoji:'🔄', name:'Coordination of Benefits (COB)',
+   color:'#0d9488', bg:'#ccfbf1', border:'#5eead4', text:'#065f46',
+   def:'Rules that determine which insurance pays FIRST (primary) and which pays SECOND (secondary) when a patient has more than one insurance plan.',
+   example:'Patient has both employer insurance AND spouse\'s insurance. The birthday rule determines which is primary.',
+   expand:'COB rules: birthday rule for dependents (parent with birthday earliest in year is primary). Active employment rule: employer plan for active employee is primary over Medicare. Medicare Secondary Payer (MSP) rules apply when Medicare is secondary. Billers must identify primary vs secondary and bill in the correct order.',
+   billing:'Primary payer is billed first on CMS-1500. Secondary payer gets the primary\'s EOB. Billing both simultaneously causes coordination errors.'},
+
+  {id:'medicalnec', cat:'plan', emoji:'🩺', name:'Medical Necessity',
+   color:'#ea580c', bg:'#ffedd5', border:'#fb923c', text:'#7c2d12',
+   def:'The requirement that a service must be reasonable, necessary, and appropriate for the patient\'s diagnosis to be covered by insurance.',
+   example:'A doctor orders an MRI for a patient with a simple headache. Insurer denies — not medically necessary for that diagnosis.',
+   expand:'Medical necessity is determined by linking the correct diagnosis (ICD-10-CM) code to the procedure (CPT). Mismatched or incorrect diagnosis codes are a major cause of medical necessity denials. The ICD-10-CM code must support the reason the procedure was performed. Advance Beneficiary Notices (ABNs) are required to notify Medicare patients before providing potentially non-covered services.',
+   billing:'ICD-10-CM diagnosis code must support CPT procedure code for medical necessity. Wrong dx = denial.'},
+
+  {id:'subrogation', cat:'billing', emoji:'⚖️', name:'Subrogation',
+   color:'#e11d48', bg:'#ffe4e6', border:'#fda4af', text:'#9f1239',
+   def:'The right of an insurance company to recover money it paid for claims when a THIRD PARTY is at fault (e.g., car accident, workers comp).',
+   example:'Patient injured in car accident. Health insurer pays the bills. Insurer then seeks reimbursement from the at-fault driver\'s auto insurance.',
+   expand:'Subrogation is common in auto accidents, slip-and-fall, and workers comp cases. Billers need to identify third-party liability cases and bill appropriately. Workers compensation is always primary when an injury is work-related. Liens may be placed on settlements. The "made whole" doctrine limits recovery in some states.',
+   billing:'Third-party liability affects billing order. Workers comp claims use different forms and fee schedules.'},
+
+  {id:'grace', cat:'plan', emoji:'⏰', name:'Grace Period',
+   color:'#4338ca', bg:'#e0e7ff', border:'#818cf8', text:'#312e81',
+   def:'The time AFTER a missed premium payment during which coverage continues and the insurer must still process claims.',
+   example:'Patient misses January premium. Grace period is 30 days. Claims during those 30 days may still be paid — but pending.',
+   expand:'Grace periods vary: ACA marketplace plans = 90 days (3-month grace period). Most employer plans = 30 days. During the grace period, claims may be paid, pended, or the insurer may hold payment. If the premium is not paid by end of grace period, coverage is terminated retroactively — creating overpayments billers must refund.',
+   billing:'Termination date after grace period creates retroactive denial. Always verify eligibility date of service.'},
+];
+
+const SCENARIOS = [
+  {id:'s1', label:'Sarah — First Visit of Year', emoji:'👩', color:'#2563eb',
+   plan:'PPO — $1,500 deductible, 80/20 coinsurance, $30 PCP copay, $5,000 OOP max',
+   billed:350, allowed:180, deductibleMet:0, deductibleTotal:1500, copay:30, coinsurance:0.20,
+   service:'Primary care office visit',
+   steps:[
+     {color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'Billed charge: $350. Insurance\'s <b>allowed amount</b>: $180. The $170 difference is the <b>contractual write-off</b> — Sarah is NOT responsible for this.'},
+     {color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'Sarah has a <b>$30 copay</b> for PCP visits. This is collected at check-in regardless of anything else.'},
+     {color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'Sarah\'s <b>deductible is $1,500 and she has met $0</b> so far. Normally the rest would go to deductible — but PCP copay plans often bypass the deductible for office visits.'},
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'<b>Sarah pays: $30 copay.</b> Insurance pays: $150. Write-off: $170. Sarah\'s deductible remains at $1,500 unmet.'},
+   ]},
+  {id:'s2', label:'James — ER Visit', emoji:'👨', color:'#e11d48',
+   plan:'HMO — $2,000 deductible, 70/30 coinsurance, $250 ER copay, $6,500 OOP max',
+   billed:4800, allowed:2200, deductibleMet:600, deductibleTotal:2000, copay:250, coinsurance:0.30,
+   service:'Emergency room visit',
+   steps:[
+     {color:'#e11d48', bg:'#ffe4e6', border:'#fda4af', text:'Billed charge: $4,800. Insurance\'s <b>allowed amount</b>: $2,200. The $2,600 difference is the <b>contractual write-off</b>.'},
+     {color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'James has a <b>$250 ER copay</b> applied first.'},
+     {color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'James has met <b>$600 of his $2,000 deductible</b>. He owes the remaining $1,400 deductible from the $1,950 balance ($2,200 - $250 copay).'},
+     {color:'#ea580c', bg:'#ffedd5', border:'#fb923c', text:'After deductible, remaining balance: $550. James owes <b>30% coinsurance</b> = $165. Insurance pays 70% = $385.'},
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'<b>James pays: $250 + $1,400 + $165 = $1,815.</b> Insurance pays: $385. Write-off: $2,600.'},
+   ]},
+  {id:'s3', label:'Linda — OOP Max Reached', emoji:'👩‍🦳', color:'#059669',
+   plan:'PPO — $1,500 deductible, 80/20 coinsurance, $4,500 OOP max (already met)',
+   billed:8500, allowed:3200, deductibleMet:1500, deductibleTotal:1500, copay:0, coinsurance:0,
+   service:'Knee surgery (OOP max already reached)',
+   steps:[
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'Linda has already met her <b>$4,500 out-of-pocket maximum</b> earlier in the year.'},
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'Billed charge: $8,500. Allowed amount: $3,200. Write-off: $5,300.'},
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'Because Linda has hit her OOP max, <b>insurance pays 100% of the allowed amount</b>.'},
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'<b>Linda pays: $0.</b> Insurance pays: $3,200. Write-off: $5,300. This is why verifying OOP max status is critical in late-year billing.'},
+   ]},
+  {id:'s4', label:'Two Insurances — COB', emoji:'👫', color:'#4338ca',
+   plan:'Primary: Employer PPO (80/20) | Secondary: Spouse\'s PPO',
+   billed:600, allowed:300, deductibleMet:300, deductibleTotal:300, copay:0, coinsurance:0.20,
+   service:'Specialist visit — patient has 2 insurance plans',
+   steps:[
+     {color:'#4338ca', bg:'#e0e7ff', border:'#818cf8', text:'Patient has TWO insurances. <b>Coordination of Benefits (COB)</b> rules apply. The birthday rule determined the employer plan is PRIMARY.'},
+     {color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'Bill PRIMARY first: Billed $600, Allowed $300, deductible met. Primary pays 80% = $240. Patient owes 20% = $60.'},
+     {color:'#4338ca', bg:'#e0e7ff', border:'#818cf8', text:'The PRIMARY\'s EOB is attached and the SECONDARY is billed the patient\'s $60 responsibility.'},
+     {color:'#059669', bg:'#d1fae5', border:'#34d399', text:'Secondary covers the remaining $60. <b>Patient pays: $0.</b> Primary paid $240, Secondary paid $60. Total covered: $300. Write-off: $300. This is called "crossing over" or "cross-over claim."'},
+   ]},
+];
+
+const PLAN_TYPES = [
+  {abbr:'HMO', color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'#1e3a8a',
+   name:'Health Maintenance Organization',
+   def:'Requires patients to choose a Primary Care Physician (PCP) who manages all care and provides referrals to specialists. No coverage for out-of-network except emergencies.',
+   pros:'Lower premiums. Must stay in network. Referrals required for specialists. No claim forms for patients.',
+   cons:'Least flexibility. Requires referrals. No out-of-network coverage.'},
+  {abbr:'PPO', color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'#4c1d95',
+   name:'Preferred Provider Organization',
+   def:'Most flexible plan. Patients can see any doctor in or out of network without a referral. In-network costs less; out-of-network costs more but is covered.',
+   pros:'No referrals needed. Can see any provider. Out-of-network covered at higher cost. Most common employer plan.',
+   cons:'Higher premiums than HMO. Still costs more out-of-network.'},
+  {abbr:'EPO', color:'#0d9488', bg:'#ccfbf1', border:'#5eead4', text:'#065f46',
+   name:'Exclusive Provider Organization',
+   def:'Similar to PPO but with NO out-of-network coverage except true emergencies. No referrals needed but must stay in network.',
+   pros:'Lower premiums than PPO. No referrals needed. Simpler network.',
+   cons:'No out-of-network coverage. Less provider choice than PPO.'},
+  {abbr:'POS', color:'#ea580c', bg:'#ffedd5', border:'#fb923c', text:'#7c2d12',
+   name:'Point of Service Plan',
+   def:'A hybrid of HMO and PPO. Requires a PCP and referrals like an HMO, but allows out-of-network like a PPO (at higher cost).',
+   pros:'Out-of-network option available. PCP coordinates care.',
+   cons:'Requires referrals. Higher costs out-of-network.'},
+  {abbr:'HDHP', color:'#db2777', bg:'#fce7f3', border:'#f9a8d4', text:'#831843',
+   name:'High-Deductible Health Plan',
+   def:'Very high deductible (minimum $1,600 individual / $3,200 family in 2024) but lower premiums. Always paired with an HSA (Health Savings Account).',
+   pros:'Lower monthly premiums. Qualifies for HSA contributions. Good for healthy, low-utilization patients.',
+   cons:'High out-of-pocket costs until deductible met. Not ideal for high utilizers.'},
+  {abbr:'HSA', color:'#4338ca', bg:'#e0e7ff', border:'#818cf8', text:'#312e81',
+   name:'Health Savings Account',
+   def:'A tax-advantaged savings account paired with an HDHP. Pre-tax dollars can be deposited and used for qualified medical expenses including deductibles, copays, and coinsurance.',
+   pros:'Triple tax benefit: contributions, growth, and withdrawals all tax-free for medical expenses.',
+   cons:'Only available with HDHPs. 2024 contribution limits: $4,150 individual, $8,300 family.'},
+];
+
+const GOV_TYPES = [
+  {abbr:'Medicare', color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'#1e3a8a',
+   name:'Federal Insurance for 65+ and disabled',
+   def:'Part A: inpatient/hospital. Part B: outpatient/physician. Part C: Medicare Advantage (private). Part D: prescriptions. Administered by CMS.',
+   pros:'Nationwide coverage. Standard billing rules. Provider must follow Medicare participation rules.',
+   cons:'Low reimbursement rates. Complex billing rules. Prior auth requirements increasing.'},
+  {abbr:'Medicaid', color:'#059669', bg:'#d1fae5', border:'#34d399', text:'#065f46',
+   name:'Federal/State insurance for low-income',
+   def:'Joint federal-state program for low-income individuals. Billing rules vary by state. Administered by CMS at the federal level. Always secondary to other insurance (except Medicare).',
+   pros:'Covers populations who otherwise could not afford care.',
+   cons:'Very low fee schedules. Not all providers accept Medicaid. State-specific billing rules vary significantly.'},
+  {abbr:'CHIP', color:'#d97706', bg:'#fef3c7', border:'#fcd34d', text:'#78350f',
+   name:"Children's Health Insurance Program",
+   def:"Covers children in families that earn too much for Medicaid but can't afford private insurance. Ages up to 19. Administered by CMS.",
+   pros:'Important coverage gap filler for children.',
+   cons:'Income eligibility varies by state.'},
+  {abbr:'TRICARE', color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'#4c1d95',
+   name:'Military health insurance (formerly CHAMPUS)',
+   def:'Covers active duty military, retirees, and their dependents. Multiple plan types. CHAMPVA covers dependents of veterans with service-connected disabilities.',
+   pros:'Comprehensive coverage for military families.',
+   cons:'Must use MTF (Military Treatment Facilities) when available. Prior auth requirements.'},
+];
+
+const GAME_PAIRS = [
+  {term:'Premium', def:'Maria pays $320 every month just to keep her insurance active — even when she never goes to the doctor.', color:'#2563eb', bg:'#dbeafe', border:'#93c5fd', text:'#1e3a8a'},
+  {term:'Deductible', def:'John must pay his first $1,500 in medical bills himself before insurance contributes anything.', color:'#7c3aed', bg:'#ede9fe', border:'#a78bfa', text:'#4c1d95'},
+  {term:'Copay', def:'Every time Ana visits her PCP she pays exactly $25 at the front desk — no matter what the doctor does.', color:'#0d9488', bg:'#ccfbf1', border:'#5eead4', text:'#065f46'},
+  {term:'Coinsurance', def:'After meeting her deductible, insurance pays 80% of every bill and the patient pays the remaining 20%.', color:'#ea580c', bg:'#ffedd5', border:'#fb923c', text:'#7c2d12'},
+  {term:'OOP Max', def:'In October, Carlos has paid $5,000 in medical costs. Every covered service for the rest of the year costs him nothing.', color:'#e11d48', bg:'#ffe4e6', border:'#fda4af', text:'#9f1239'},
+  {term:'Write-Off', def:'The doctor billed $500 but the insurance contract says $180 is the maximum. The $320 difference is removed from the account.', color:'#db2777', bg:'#fce7f3', border:'#f9a8d4', text:'#831843'},
+  {term:'Prior Auth', def:'Before scheduling the MRI, the office must call insurance to get approval or the claim will be automatically denied.', color:'#4338ca', bg:'#e0e7ff', border:'#818cf8', text:'#312e81'},
+  {term:'EOB', def:'After the insurance processes the claim, the patient receives a document showing what was billed, what insurance paid, and what they owe.', color:'#059669', bg:'#d1fae5', border:'#34d399', text:'#065f46'},
+  {term:'Referral', def:'Maria\'s HMO plan requires her PCP to send a written order before she can see the cardiologist or the visit won\'t be covered.', color:'#d97706', bg:'#fef3c7', border:'#fcd34d', text:'#78350f'},
+  {term:'Allowed Amount', def:'Insurance agrees to pay no more than $180 for a specific office visit, regardless of what the provider billed.', color:'#7c3aed', bg:'#ede9fe', border:'#c4b5fd', text:'#5b21b6'},
+];
+
+const FLASH_DATA = TERMS.map(t => ({
+  cat: t.cat,
+  emoji: t.emoji,
+  q: t.name,
+  a: t.def,
+  detail: t.example
+}));
+
+const QUESTIONS = [
+  {cat:'Cost-Sharing', q:'A patient pays $280 per month to keep their health insurance active. What is this called?', opts:['A. Deductible','B. Copay','C. Premium','D. Coinsurance'], cor:2,
+   rats:[{ok:false,l:'A',w:'Deductible is the annual amount paid before insurance kicks in — not a monthly payment.'},{ok:false,l:'B',w:'Copay is a fixed amount paid at the time of service — not a monthly insurance fee.'},{ok:true,l:'C',w:'Premium is the monthly amount paid to maintain health insurance coverage — whether or not services are used.'},{ok:false,l:'D',w:'Coinsurance is a percentage paid after the deductible — not a monthly payment.'}]},
+
+  {cat:'Cost-Sharing', q:'A patient has a $2,000 deductible and has paid $500 so far this year. They receive a $600 bill. How much of the $600 will they pay toward their deductible?', opts:['A. $100','B. $500','C. $600','D. $1,500'], cor:2,
+   rats:[{ok:false,l:'A',w:'$100 would be correct if only $100 remained in the deductible — but $1,500 still remains.'},{ok:false,l:'B',w:'$500 was already paid — that was past spending, not this bill.'},{ok:true,l:'C',w:'The patient still has $1,500 of deductible remaining ($2,000 - $500). Since the $600 bill is less than the remaining deductible, the patient pays the full $600.'},{ok:false,l:'D',w:'$1,500 is the remaining deductible but the bill is only $600 — so only $600 applies.'}]},
+
+  {cat:'Cost-Sharing', q:'After meeting their deductible, a patient\'s plan pays 70% and the patient pays 30% of covered services. This patient payment percentage is called:', opts:['A. Premium','B. Copay','C. Deductible','D. Coinsurance'], cor:3,
+   rats:[{ok:false,l:'A',w:'Premium is the monthly amount paid to maintain coverage — not a percentage of service costs.'},{ok:false,l:'B',w:'Copay is a fixed dollar amount — not a percentage split.'},{ok:false,l:'C',w:'Deductible is the annual amount paid before insurance begins — not a percentage after.'},{ok:true,l:'D',w:'Coinsurance is expressed as a percentage split. An 70/30 plan means: insurance pays 70%, patient pays 30% of covered services after the deductible is met.'}]},
+
+  {cat:'Cost-Sharing', q:'A patient has hit their $5,500 out-of-pocket maximum. They are then hospitalized and receive a $20,000 bill. How much does the patient owe?', opts:['A. $20,000','B. $5,500','C. The coinsurance percentage of $20,000','D. $0 — insurance pays 100%'], cor:3,
+   rats:[{ok:false,l:'A',w:'$20,000 would be full billed — but remember the allowed amount applies, and OOP max protects the patient.'},{ok:false,l:'B',w:'$5,500 was the OOP max — they have already paid that. The OOP max is cumulative for the year.'},{ok:false,l:'C',w:'Coinsurance does not apply once the OOP max is reached.'},{ok:true,l:'D',w:'Once the out-of-pocket maximum is met, the insurance company pays 100% of covered, in-network services for the rest of the plan year. The patient owes $0.'}]},
+
+  {cat:'Billing', q:'A physician bills $450 for a service. The insurance allowed amount is $190. The $260 difference:', opts:['A. Is billed to the patient as a balance','B. Is refunded by the insurance company','C. Is a contractual write-off — cannot be billed to the patient','D. Is added to the patient\'s deductible'], cor:2,
+   rats:[{ok:false,l:'A',w:'Billing an in-network patient for the write-off difference is called balance billing — it is prohibited for in-network providers and may constitute fraud.'},{ok:false,l:'B',w:'Insurance does not refund write-offs — they simply do not pay the excess.'},{ok:true,l:'C',w:'In-network providers agree to accept the allowed amount as payment in full. The difference between billed and allowed is a contractual adjustment (write-off) — it must be adjusted off and cannot be billed to the patient.'},{ok:false,l:'D',w:'Write-offs are not added to deductibles. Coinsurance and copays count toward the OOP max, but write-offs are not patient responsibility.'}]},
+
+  {cat:'Billing', q:'What is the electronic version of the Explanation of Benefits (EOB) called in HIPAA transaction standards?', opts:['A. 837P','B. 270/271','C. 276/277','D. 835 — Electronic Remittance Advice (ERA)'], cor:3,
+   rats:[{ok:false,l:'A',w:'837P is the electronic professional claim submission — not the payment explanation.'},{ok:false,l:'B',w:'270/271 is the eligibility inquiry and response transaction.'},{ok:false,l:'C',w:'276/277 is the claim status inquiry and response.'},{ok:true,l:'D',w:'The 835 is the Electronic Remittance Advice (ERA) — the electronic version of the EOB. It contains the same information: billed, allowed, paid, adjustments, and patient responsibility. Billers use it to post payments and identify patient balances.'}]},
+
+  {cat:'Plans', q:'A patient has an HMO plan and wants to see a cardiologist without asking their doctor first. What will happen?', opts:['A. They can see any specialist — HMOs allow direct specialist access','B. The cardiologist visit will not be covered — HMOs require a referral from the PCP','C. They can self-refer but will pay a higher specialist copay','D. The claim will be paid but sent to out-of-network benefits'], cor:1,
+   rats:[{ok:false,l:'A',w:'HMOs do NOT allow direct specialist access without a referral from the Primary Care Physician.'},{ok:true,l:'B',w:'HMOs require a referral from the PCP before seeing any specialist. Without a referral, the specialist visit is not covered and the patient is responsible for the full cost.'},{ok:false,l:'C',w:'HMOs do not offer a self-referral option with a higher copay — referrals are required, period.'},{ok:false,l:'D',w:'HMOs generally have no out-of-network benefit except for true emergencies.'}]},
+
+  {cat:'Plans', q:'Which plan type allows patients to see any provider — in or out of network — without a referral, but costs more for out-of-network?', opts:['A. HMO','B. EPO','C. PPO','D. HDHP'], cor:2,
+   rats:[{ok:false,l:'A',w:'HMO requires in-network only and referrals. No out-of-network coverage.'},{ok:false,l:'B',w:'EPO allows no out-of-network coverage (like an HMO) but does NOT require referrals.'},{ok:true,l:'C',w:'PPO (Preferred Provider Organization) is the most flexible plan. No referrals required. Can see any provider. In-network is cheaper; out-of-network is covered but at higher cost.'},{ok:false,l:'D',w:'HDHP refers to the deductible structure — not network access rules. HDHPs can be structured as PPO or HMO.'}]},
+
+  {cat:'Authorization', q:'A provider performs a CT scan without obtaining prior authorization. The insurance company denies the claim. Who is responsible?', opts:['A. The insurance company — they should have told the provider','B. The patient — they chose to have the scan','C. The provider — prior auth was required and not obtained','D. The clearinghouse — they should have flagged the missing auth'], cor:2,
+   rats:[{ok:false,l:'A',w:'It is the provider\'s responsibility to verify prior auth requirements — not the insurer\'s responsibility to call them first.'},{ok:false,l:'B',w:'If the patient was not notified in advance (e.g., via ABN for Medicare), the patient may not be liable. The billing responsibility falls on the provider.'},{ok:true,l:'C',w:'Prior authorization is the provider\'s responsibility to obtain before the service. Performing a service without required auth results in a denial — and the provider typically cannot bill the patient for the denied amount if it was an in-network service.'},{ok:false,l:'D',w:'Clearinghouses check for claim format errors — not clinical prior authorization requirements.'}]},
+
+  {cat:'COB', q:'A patient has two insurance plans. Their employer plan and their spouse\'s plan. The birthday rule determines:', opts:['A. Which plan has the lower premium','B. Which parent\'s plan is primary for dependent children','C. When the deductible resets each year','D. How long the grace period lasts'], cor:1,
+   rats:[{ok:false,l:'A',w:'Premium comparison is not part of the birthday rule.'},{ok:true,l:'B',w:'The birthday rule applies to dependent children covered under two parents\' plans. The parent whose birthday falls EARLIEST in the calendar year (not the year of birth) has the PRIMARY plan. Example: Mom\'s birthday is March 5, Dad\'s is August 12 — Mom\'s plan is primary.'},{ok:false,l:'C',w:'Deductible resets are determined by the plan year — not the birthday rule.'},{ok:false,l:'D',w:'Grace periods are set by state law and plan type — not the birthday rule.'}]},
+
+  {cat:'Medical Necessity', q:'A biller submits a claim for an MRI (CPT 70553) with a diagnosis of Z00.00 (routine exam). The claim is denied for medical necessity. The MOST LIKELY cause is:', opts:['A. The CPT code is incorrect for an MRI','B. The diagnosis code does not support medical necessity for an MRI','C. MRIs never require prior auth','D. The claim was submitted to the wrong payer'], cor:1,
+   rats:[{ok:false,l:'A',w:'CPT 70553 is correct for MRI of the brain with contrast — the code itself is fine.'},{ok:true,l:'B',w:'Z00.00 is for routine adult health examination — it does not support an MRI. The diagnosis must justify the procedure. The correct dx would be a neurological complaint (e.g., headache, dizziness) that makes the MRI medically necessary.'},{ok:false,l:'C',w:'MRIs frequently require prior authorization — the opposite is true.'},{ok:false,l:'D',w:'Wrong payer would cause a routing issue — not a medical necessity denial.'}]},
+
+  {cat:'Cost-Sharing', q:'Which of the following does NOT typically count toward a patient\'s out-of-pocket maximum?', opts:['A. Copays','B. Coinsurance','C. The annual deductible','D. Monthly premiums'], cor:3,
+   rats:[{ok:false,l:'A',w:'Copays DO count toward the out-of-pocket maximum.'},{ok:false,l:'B',w:'Coinsurance payments DO count toward the out-of-pocket maximum.'},{ok:false,l:'C',w:'The deductible DOES count toward the out-of-pocket maximum — it is included in the OOP calculation.'},{ok:true,l:'D',w:'Monthly premiums do NOT count toward the out-of-pocket maximum. Premiums are a separate cost of maintaining coverage. OOP max only protects against in-network cost-sharing: deductibles + copays + coinsurance.'}]},
+
+  {cat:'Plans', q:'An HDHP (High-Deductible Health Plan) is always paired with which type of savings account?', opts:['A. FSA — Flexible Spending Account','B. HRA — Health Reimbursement Arrangement','C. HSA — Health Savings Account','D. MSA — Medical Savings Account'], cor:2,
+   rats:[{ok:false,l:'A',w:'FSAs are available with traditional (non-HDHP) plans. They have use-it-or-lose-it rules and are employer-owned.'},{ok:false,l:'B',w:'HRAs are funded by employers — not employees. They are not the standard pairing with HDHPs.'},{ok:true,l:'C',w:'HSA (Health Savings Account) is only available when enrolled in a qualified HDHP. It has triple tax benefits: contributions are pre-tax, growth is tax-free, and withdrawals for qualified medical expenses are tax-free.'},{ok:false,l:'D',w:'MSAs (Archer Medical Savings Accounts) are largely outdated and not the standard pairing with HDHPs.'}]},
+
+  {cat:'Billing', q:'A patient was in a car accident and their health insurance paid for their treatment. The health insurer now seeks reimbursement from the at-fault driver\'s auto insurance. This is called:', opts:['A. Coordination of Benefits','B. Subrogation','C. Prior Authorization','D. Balance Billing'], cor:1,
+   rats:[{ok:false,l:'A',w:'COB manages payments when a patient has two health insurance plans — not when an insurer recovers from a third-party liability.'},{ok:true,l:'B',w:'Subrogation is the right of an insurance company to step into the shoes of the insured and recover payments made from a responsible third party. Common in auto accidents, slip-and-fall, and workers compensation cases.'},{ok:false,l:'C',w:'Prior authorization is approval for services before they are performed — not a recovery mechanism.'},{ok:false,l:'D',w:'Balance billing is when a provider bills a patient for the difference between billed and allowed amounts — not an insurer\'s recovery from a third party.'}]},
+
+  {cat:'Plans', q:'Medicare Part B covers:', opts:['A. Inpatient hospital stays','B. Prescription drugs','C. Outpatient physician services and preventive care','D. Medicare Advantage private plan options'], cor:2,
+   rats:[{ok:false,l:'A',w:'Inpatient hospital stays are covered by Medicare Part A.'},{ok:false,l:'B',w:'Prescription drugs are covered by Medicare Part D.'},{ok:true,l:'C',w:'Medicare Part B covers outpatient physician services, preventive care, durable medical equipment, and outpatient facility services. Patients pay a monthly premium for Part B (unlike Part A, which is generally premium-free).'},{ok:false,l:'D',w:'Medicare Part C (Medicare Advantage) offers private plan options — not Part B.'}]},
+
+  {cat:'Billing', q:'A provider collects a $40 copay at check-in and then waives it for a "good patient." This practice:', opts:['A. Is acceptable as a professional courtesy','B. Violates insurance contracts and may constitute fraud','C. Is required under HIPAA hardship provisions','D. Is acceptable if documented in the chart'], cor:1,
+   rats:[{ok:false,l:'A',w:'"Professional courtesy" waiving of copays violates insurance contract requirements — even if well-intentioned.'},{ok:true,l:'B',w:'Routinely waiving copays violates the provider\'s contract with the insurer (which requires collecting patient cost-sharing) and may constitute insurance fraud — because it misrepresents the actual charge. Hardship waivers may be acceptable in documented financial hardship situations on a case-by-case basis.'},{ok:false,l:'C',w:'HIPAA does not require or permit routine copay waivers. Financial hardship policies must be documented and applied consistently.'},{ok:false,l:'D',w:'Documentation does not make the practice compliant. Routine waiving — even documented — violates insurance contracts.'}]},
+
+  {cat:'Authorization', q:'Which box on the CMS-1500 claim form is used to enter the prior authorization number?', opts:['A. Box 17b — referral number','B. Box 21 — diagnosis codes','C. Box 23 — prior authorization number','D. Box 33 — billing provider NPI'], cor:2,
+   rats:[{ok:false,l:'A',w:'Box 17b is for the referring provider\'s NPI number. Referral numbers go in Box 23 as well, depending on payer.'},{ok:false,l:'B',w:'Box 21 is for ICD-10-CM diagnosis codes — not authorization numbers.'},{ok:true,l:'C',w:'Box 23 on the CMS-1500 is designated for the prior authorization number. Missing or incorrect auth numbers in Box 23 are a leading cause of claim denials.'},{ok:false,l:'D',w:'Box 33 is for the billing provider\'s name, address, and NPI — not authorization numbers.'}]},
+
+  {cat:'COB', q:'Under Medicare Secondary Payer (MSP) rules, when is Medicare PRIMARY?', opts:['A. When the patient has employer group health insurance','B. When the patient was injured in an auto accident','C. When no other insurance exists — Medicare is the only payer','D. Whenever the patient is over 65 — Medicare is always primary'], cor:2,
+   rats:[{ok:false,l:'A',w:'If a patient over 65 is actively employed at a company with 20+ employees, Medicare is SECONDARY to the employer group plan.'},{ok:false,l:'B',w:'In auto accidents, workers comp, or third-party liability cases, Medicare is SECONDARY — the liability insurer pays first.'},{ok:true,l:'C',w:'Medicare is PRIMARY when it is the only insurance — or in specific MSP situations where no other valid primary exists. MSP rules are complex: Medicare is often SECONDARY to employer plans, workers comp, auto insurance, and other liability coverage.'},{ok:false,l:'D',w:'Medicare is NOT always primary. MSP rules specify many situations where Medicare is secondary — age alone does not make Medicare primary.'}]},
+
+  {cat:'Plans', q:'The difference between an HMO and an EPO is:', opts:['A. EPOs require referrals; HMOs do not','B. HMOs allow some out-of-network coverage; EPOs do not','C. EPOs do not require referrals but have no out-of-network coverage; HMOs require referrals','D. There is no meaningful difference'], cor:2,
+   rats:[{ok:false,l:'A',w:'This is reversed. HMOs require referrals; EPOs do NOT require referrals.'},{ok:false,l:'B',w:'This is reversed. HMOs typically have no out-of-network coverage (except emergencies). EPOs also have no out-of-network coverage.'},{ok:true,l:'C',w:'Key difference: HMOs require a PCP and referrals. EPOs do NOT require referrals but restrict patients to the network only (no out-of-network coverage). EPOs are essentially PPOs with no out-of-network benefit.'},{ok:false,l:'D',w:'There is a meaningful difference — primarily around the referral requirement.'}]},
+
+  {cat:'Cost-Sharing', q:'An FSA (Flexible Spending Account) differs from an HSA (Health Savings Account) in which important way?', opts:['A. HSAs are funded by the employer only','B. FSAs have a "use it or lose it" rule — unspent funds may be forfeited at year end','C. HSAs are only for dental and vision expenses','D. FSAs roll over indefinitely each year'], cor:1,
+   rats:[{ok:false,l:'A',w:'HSAs are funded by the employee (and can also receive employer contributions). They are not employer-only.'},{ok:true,l:'B',w:'FSAs (Flexible Spending Accounts) have a use-it-or-lose-it rule. Unspent funds are generally forfeited at plan year end (with some grace periods or small rollover allowances). HSAs rollover indefinitely and are owned by the individual, not the employer.'},{ok:false,l:'C',w:'HSAs can be used for any qualified medical expense — not just dental/vision.'},{ok:false,l:'D',w:'FSAs do NOT roll over indefinitely — that is one of the key disadvantages compared to HSAs.'}]},
+];
+
+// ══════════════════════════════════════
+// RENDER TERMS
+// ══════════════════════════════════════
+function renderTerms(){
+  document.getElementById('termsGrid').innerHTML = TERMS.map(t =>
+    `<div class="term-card" id="tc-${t.id}" onclick="toggleTerm('${t.id}')"
+      style="background:${t.bg};border-color:${t.border};color:${t.text};">
+      <span class="tc-tag" style="background:rgba(255,255,255,.4);color:${t.text};">${t.cat}</span>
+      <span class="tc-emoji">${t.emoji}</span>
+      <div class="tc-name">${t.name}</div>
+      <div class="tc-def">${t.def}</div>
+      <div class="tc-example" style="background:rgba(255,255,255,.45);color:${t.text};">💡 ${t.example}</div>
+      <div class="tc-expand" style="border-color:${t.border};">
+        <div style="margin-bottom:.5rem;">${t.expand}</div>
+        <div style="background:rgba(255,255,255,.4);border-radius:6px;padding:.4rem .6rem;font-size:11px;font-weight:800;">🧾 BILLING: ${t.billing}</div>
+      </div>
+      <div style="font-size:11px;font-weight:700;margin-top:.6rem;opacity:.65;">▼ Click to expand</div>
+    </div>`
+  ).join('');
+}
+function toggleTerm(id){document.getElementById('tc-'+id).classList.toggle('open');}
+
+// ══════════════════════════════════════
+// SCENARIOS
+// ══════════════════════════════════════
+function renderScenarios(){
+  const sel = document.getElementById('scenSelector');
+  sel.innerHTML = SCENARIOS.map((s,i) =>
+    `<button class="scen-btn ${i===0?'on':''}" onclick="selectScen('${s.id}',this)">${s.emoji} ${s.label}</button>`
+  ).join('');
+  showScen(SCENARIOS[0].id);
+}
+function selectScen(id,btn){
+  document.querySelectorAll('.scen-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  showScen(id);
+}
+function showScen(id){
+  const s = SCENARIOS.find(x=>x.id===id);
+  const ded = Math.min(s.deductibleMet, s.deductibleTotal);
+  const dedPct = Math.round((ded/s.deductibleTotal)*100);
+  const stepsHtml = s.steps.map((st,i) =>
+    `<div class="exp-step" style="background:${st.bg};border-color:${st.border};">
+      <div class="step-num" style="background:${st.color};">${i+1}</div>
+      <div class="step-text" style="color:${st.text};">${st.text}</div>
+    </div>`).join('');
+  document.getElementById('scenBody').innerHTML = `
+    <div class="patient-info">
+      <div class="patient-avatar" style="background:${s.color}20;">${s.emoji}</div>
+      <div class="patient-meta">
+        <div class="patient-name">${s.label.split('—')[0].trim()}</div>
+        <div class="patient-plan">📋 ${s.plan}</div>
+        <div class="patient-plan">🩺 Service: ${s.service}</div>
+      </div>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <div style="font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;">Deductible status</div>
+      <div style="height:24px;background:#f1f5f9;border-radius:8px;overflow:hidden;border:1.5px solid var(--border);">
+        <div style="height:100%;width:${dedPct}%;background:linear-gradient(90deg,${s.color},#7c3aed);border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:800;color:#fff;min-width:0;transition:width .5s;">${ded>0?'$'+ded+' met':''}</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--muted);margin-top:2px;"><span>$0</span><span>$${s.deductibleTotal} deductible</span></div>
+    </div>
+    <div class="explanation-steps">${stepsHtml}</div>`;
+}
+
+// ══════════════════════════════════════
+// METER
+// ══════════════════════════════════════
+const DED = 1500, COINS = 0.20, OOPM = 5000;
+function updateMeter(val){
+  val = parseInt(val);
+  document.getElementById('billsSpent').textContent = '$'+val.toLocaleString();
+  const dedPct = Math.min(val/DED*100,100);
+  const dedMet = Math.min(val, DED);
+  let phase, barColor, barText, explanation, width;
+  if(val <= DED){
+    phase='deductible'; barColor='linear-gradient(90deg,#2563eb,#7c3aed)';
+    barText = `$${dedMet.toLocaleString()} / $${DED.toLocaleString()} deductible`;
+    width = dedPct; explanation = `<div style="background:var(--blue-l);border:1.5px solid var(--blue-m);border-radius:10px;padding:.85rem 1rem;margin-top:.75rem;font-size:13px;font-weight:700;color:#1e3a8a;"><b>📌 Deductible phase:</b> Patient pays 100% of each bill. Insurance has not started paying yet. Patient has paid $${val.toLocaleString()} toward their $${DED.toLocaleString()} deductible.</div>`;
+  } else {
+    const afterDed = val - DED;
+    const coinsAmt = afterDed * COINS;
+    const totalOut = DED + coinsAmt;
+    if(totalOut >= OOPM){
+      phase='oopm'; barColor='linear-gradient(90deg,#059669,#0d9488)';
+      barText='🎉 OOP Max Reached!'; width=100;
+      explanation=`<div style="background:var(--green-l);border:1.5px solid var(--green-m);border-radius:10px;padding:.85rem 1rem;margin-top:.75rem;font-size:13px;font-weight:700;color:#065f46;"><b>🎉 Out-of-pocket maximum reached!</b> Insurance now pays 100% of all covered services. Patient owes $0 for the rest of the plan year.</div>`;
+    } else {
+      phase='coinsurance'; barColor='linear-gradient(90deg,#0d9488,#2563eb)';
+      barText=`Coinsurance phase — $${totalOut.toFixed(0)} of $${OOPM.toLocaleString()} OOP max`;
+      width=Math.min((totalOut/OOPM)*100,100);
+      explanation=`<div style="background:var(--teal-l);border:1.5px solid var(--teal-m);border-radius:10px;padding:.85rem 1rem;margin-top:.75rem;font-size:13px;font-weight:700;color:#0f766e;"><b>📊 Coinsurance phase:</b> Deductible met! Now insurance pays 80%, patient pays 20%. Patient has spent ~$${totalOut.toFixed(0)} out of pocket (deductible + coinsurance). Insurance has started contributing.</div>`;
+    }
+  }
+  const bar = document.getElementById('dedBar');
+  bar.style.width = width+'%';
+  bar.style.background = barColor;
+  bar.textContent = barText;
+  document.getElementById('meterExplanation').innerHTML = explanation;
+  document.getElementById('dedLabel').textContent = `$${DED.toLocaleString()} deductible`;
+}
+
+// Plan builder
+function buildPlanBuilder(){
+  const pb = document.getElementById('planBuilder');
+  const fields = [
+    {id:'pb_ded', label:'Deductible', min:0, max:8000, step:100, val:1500, prefix:'$'},
+    {id:'pb_coins', label:'Coinsurance (patient %)', min:0, max:50, step:5, val:20, prefix:'', suffix:'%'},
+    {id:'pb_copay', label:'PCP Copay', min:0, max:100, step:5, val:25, prefix:'$'},
+    {id:'pb_oopm', label:'Out-of-Pocket Max', min:1000, max:15000, step:500, val:5000, prefix:'$'},
+    {id:'pb_bill', label:'Your Medical Bill', min:0, max:50000, step:500, val:3000, prefix:'$'},
+  ];
+  pb.innerHTML = fields.map(f =>
+    `<div>
+      <div style="font-size:13px;font-weight:800;margin-bottom:.4rem;">${f.prefix}${f.label}${f.suffix||''}</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:.25rem;">
+        <input type="range" min="${f.min}" max="${f.max}" step="${f.step}" value="${f.val}" id="${f.id}" oninput="updatePlanResult()">
+        <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500;min-width:60px;" id="${f.id}_val">${f.prefix}${f.val}${f.suffix||''}</span>
+      </div>
+    </div>`
+  ).join('');
+  updatePlanResult();
+}
+function updatePlanResult(){
+  const g=(id)=>parseInt(document.getElementById(id).value)||0;
+  const ded=g('pb_ded'), coinsP=g('pb_coins'), copay=g('pb_copay'), oopm=g('pb_oopm'), bill=g('pb_bill');
+  ['pb_ded','pb_coins','pb_copay','pb_oopm','pb_bill'].forEach(id=>{
+    const el=document.getElementById(id+'_val');
+    const v=g(id);
+    if(id==='pb_coins') el.textContent=v+'%'; else el.textContent='$'+v.toLocaleString();
+  });
+  let patAmt=0, insPays=0;
+  patAmt += copay; // copay first
+  const afterCopay = Math.max(bill - copay, 0);
+  const dedApplied = Math.min(afterCopay, ded);
+  patAmt += dedApplied;
+  const afterDed = Math.max(afterCopay - ded, 0);
+  const coinsAmt = afterDed * (coinsP/100);
+  patAmt += coinsAmt;
+  insPays = afterDed * (1-coinsP/100);
+  if(patAmt > oopm){ insPays += (patAmt - oopm); patAmt = oopm; }
+  document.getElementById('planResult').innerHTML = `
+    <div style="font-size:13px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;">📊 What you\'d pay on a $${bill.toLocaleString()} bill</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;">
+      <div style="background:var(--rose-l);border:1.5px solid var(--rose-m);border-radius:10px;padding:.75rem;text-align:center;">
+        <div style="font-size:11px;font-weight:800;color:var(--rose);text-transform:uppercase;">You pay</div>
+        <div style="font-size:24px;font-weight:900;color:var(--rose);">$${Math.min(patAmt,oopm).toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+      </div>
+      <div style="background:var(--green-l);border:1.5px solid var(--green-m);border-radius:10px;padding:.75rem;text-align:center;">
+        <div style="font-size:11px;font-weight:800;color:var(--green);text-transform:uppercase;">Insurance pays</div>
+        <div style="font-size:24px;font-weight:900;color:var(--green);">$${Math.max(insPays,0).toLocaleString(undefined,{maximumFractionDigits:0})}</div>
+      </div>
+      <div style="background:var(--blue-l);border:1.5px solid var(--blue-m);border-radius:10px;padding:.75rem;text-align:center;">
+        <div style="font-size:11px;font-weight:800;color:#1e40af;text-transform:uppercase;">Copay</div>
+        <div style="font-size:24px;font-weight:900;color:#1e40af;">$${copay}</div>
+      </div>
+      <div style="background:var(--amber-l);border:1.5px solid var(--amber-m);border-radius:10px;padding:.75rem;text-align:center;">
+        <div style="font-size:11px;font-weight:800;color:var(--amber);text-transform:uppercase;">OOP max hit?</div>
+        <div style="font-size:20px;font-weight:900;color:var(--amber);">${patAmt>=oopm?'YES ✓':'Not yet'}</div>
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════
+// PLAN TYPES
+// ══════════════════════════════════════
+function renderPlanTypes(){
+  const render=(arr,id) => {
+    document.getElementById(id).innerHTML = arr.map(p =>
+      `<div class="ins-card" data-abbr="${p.abbr}" style="background:${p.bg};border-color:${p.border};">
+        <div class="ins-abbr" style="background:rgba(255,255,255,.5);color:${p.text};">${p.abbr}</div>
+        <div class="ins-name" style="color:${p.text};">${p.name}</div>
+        <div class="ins-def" style="color:${p.text};">${p.def}</div>
+        <div class="ins-pros" style="margin-top:.6rem;background:rgba(255,255,255,.4);border-radius:8px;padding:.5rem .75rem;color:${p.text};">
+          <div class="pros-label" style="color:${p.text};opacity:.7;">✓ Key facts</div>${p.pros}
+          <div class="pros-label" style="color:${p.text};opacity:.7;margin-top:.4rem;">⚠ Limitations</div>${p.cons}
+        </div>
+      </div>`
+    ).join('');
+  };
+  render(PLAN_TYPES,'insTypes');
+  render(GOV_TYPES,'govTypes');
+}
+
+// ══════════════════════════════════════
+// MATCHING GAME
+// ══════════════════════════════════════
+let gameState={}, gameSelected=null, gameWrong=0, gameDeck=[];
+function shuffle(arr){return [...arr].sort(()=>Math.random()-.5);}
+
+function initGame(){
+  gameDeck=shuffle(GAME_PAIRS).slice(0,8);
+  gameState={};gameSelected=null;gameWrong=0;
+  document.getElementById('gameResult').style.display='none';
+  const chipsHtml=gameDeck.map(p=>
+    `<div class="drag-chip" id="chip-${p.term}" draggable="true"
+      style="background:${p.bg};border-color:${p.border};color:${p.text};"
+      ondragstart="chipDragStart(event,'${p.term}')"
+      ondragend="chipDragEnd(event,'${p.term}')"
+      onclick="chipClick('${p.term}')">${p.term}</div>`
+  ).join('');
+  const scenHtml=shuffle([...gameDeck]).map(p=>
+    `<div class="drag-scenario" id="scen-${p.term}"
+      ondragover="scenDragOver(event,'${p.term}')"
+      ondragleave="scenDragLeave(event,'${p.term}')"
+      ondrop="scenDrop(event,'${p.term}')"
+      onclick="scenClick('${p.term}')">
+      <div class="ds-text">${p.def}</div>
+      <div class="ds-drop" id="sdrop-${p.term}">Drop term here</div>
+    </div>`
+  ).join('');
+  document.getElementById('gameChips').innerHTML=chipsHtml;
+  document.getElementById('gameScenarios').innerHTML=scenHtml;
+  updateGameScore();
+}
+
+let draggingChip=null;
+function chipDragStart(e,term){draggingChip=term;e.dataTransfer.setData('text',term);setTimeout(()=>document.getElementById('chip-'+term).classList.add('dragging'),0);}
+function chipDragEnd(e,term){document.getElementById('chip-'+term).classList.remove('dragging');draggingChip=null;}
+function scenDragOver(e,term){e.preventDefault();document.getElementById('scen-'+term).classList.add('drag-over');}
+function scenDragLeave(e,term){document.getElementById('scen-'+term).classList.remove('drag-over');}
+function scenDrop(e,term){e.preventDefault();const chip=e.dataTransfer.getData('text')||draggingChip;document.getElementById('scen-'+term).classList.remove('drag-over');placeChip(chip,term);}
+
+function chipClick(term){
+  if(gameState[term]==='correct')return;
+  if(gameSelected===term){gameSelected=null;document.querySelectorAll('.drag-chip').forEach(c=>c.classList.remove('selected'));return;}
+  gameSelected=term;
+  document.querySelectorAll('.drag-chip').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('chip-'+term).classList.add('selected');
+}
+function scenClick(scenTerm){
+  if(!gameSelected)return;
+  placeChip(gameSelected,scenTerm);
+  gameSelected=null;
+}
+
+function placeChip(chipTerm,scenTerm){
+  if(!chipTerm||gameState[chipTerm]==='correct')return;
+  if(chipTerm===scenTerm){
+    gameState[chipTerm]='correct';
+    document.getElementById('chip-'+chipTerm).classList.remove('selected');
+    document.getElementById('chip-'+chipTerm).classList.add('used');
+    const scen=document.getElementById('scen-'+scenTerm);
+    scen.classList.add('correct');
+    document.getElementById('sdrop-'+scenTerm).textContent='✓ '+chipTerm;
+    document.getElementById('sdrop-'+scenTerm).style.color='var(--green)';
+    document.getElementById('sdrop-'+scenTerm).style.fontStyle='normal';
+    updateGameScore();
+    if(Object.keys(gameState).filter(k=>gameState[k]==='correct').length===gameDeck.length)setTimeout(showGameResult,500);
+  } else {
+    gameWrong++;
+    const scen=document.getElementById('scen-'+scenTerm);
+    scen.classList.add('wrong');
+    setTimeout(()=>scen.classList.remove('wrong'),400);
+    document.getElementById('chip-'+chipTerm).classList.remove('selected');
+    updateGameScore();
+  }
+}
+
+function updateGameScore(){
+  const correct=Object.keys(gameState).filter(k=>gameState[k]==='correct').length;
+  const total=gameDeck.length;
+  document.getElementById('gameScore').textContent=`✓ ${correct} matched`;
+  document.getElementById('gameWrong').textContent=`✗ ${gameWrong} wrong`;
+  document.getElementById('gameBar').style.width=Math.round(correct/total*100)+'%';
+}
+
+function showGameResult(){
+  const total=gameDeck.length;
+  const msg=gameWrong===0?'🎉 Perfect! Zero wrong attempts!':gameWrong<=3?`Nice work! Only ${gameWrong} wrong attempt${gameWrong>1?'s':''}.`:`You got them all! ${gameWrong} wrong attempts — keep practicing!`;
+  document.getElementById('gameResultScore').textContent=`${total}/${total} Matched!`;
+  document.getElementById('gameResultMsg').textContent=msg;
+  document.getElementById('gameResult').style.display='block';
+}
+
+// ══════════════════════════════════════
+// FLASHCARDS
+// ══════════════════════════════════════
+let fcDeck=[],fcIdx=0,fcFlipped=false;
+function initFlash(){
+  const cat=document.getElementById('fcCat').value;
+  fcDeck=shuffle(cat==='all'?FLASH_DATA:FLASH_DATA.filter(c=>c.cat===cat));
+  fcIdx=0;fcFlipped=false;showFCard();
+}
+function shuffleFlash(){fcDeck=shuffle(fcDeck);fcIdx=0;fcFlipped=false;showFCard();}
+function showFCard(){
+  const c=fcDeck[fcIdx];
+  document.getElementById('fcEmoji').textContent=c.emoji;
+  document.getElementById('fcQ').textContent=c.q;
+  document.getElementById('fcAns').textContent=c.a;
+  document.getElementById('fcDetail').textContent=c.detail;
+  document.getElementById('fcInner').classList.remove('flipped');
+  fcFlipped=false;
+  document.getElementById('fcPos').textContent=`${fcIdx+1} / ${fcDeck.length}`;
+  document.getElementById('fcCount').textContent=`Card ${fcIdx+1} of ${fcDeck.length}`;
+}
+function flipCard(){fcFlipped=!fcFlipped;document.getElementById('fcInner').classList.toggle('flipped',fcFlipped);}
+function fcMove(d){fcIdx=(fcIdx+d+fcDeck.length)%fcDeck.length;showFCard();}
+
+// ══════════════════════════════════════
+// QUIZ
+// ══════════════════════════════════════
+let qIdx=0,qScore=0,qAnswered={};
+function initQuiz(){qIdx=0;qScore=0;qAnswered={};renderQ();}
+function renderQ(){
+  const w=document.getElementById('quizWrap');
+  if(qIdx>=QUESTIONS.length){showResult();return;}
+  const q=QUESTIONS[qIdx];
+  const pct=Math.round(qIdx/QUESTIONS.length*100);
+  const isAns=qAnswered[qIdx]!==undefined;
+  const uC=qAnswered[qIdx];
+  const catColors={'Cost-Sharing':'#dbeafe/#1e3a8a','Billing':'#d1fae5/#065f46','Plans':'#ede9fe/#4c1d95','Authorization':'#fef3c7/#78350f','COB':'#e0e7ff/#312e81','Medical Necessity':'#ffedd5/#7c2d12'};
+  const [cbg,ctxt]=(catColors[q.cat]||'#f3f4f6/#374151').split('/');
+  const optsH=q.opts.map((o,oi)=>{
+    let cls='qopt';
+    if(isAns){cls+=' locked';if(oi===q.cor)cls+=' correct';else if(oi===uC)cls+=' wrong';}
+    const l=String.fromCharCode(65+oi);
+    return `<button class="${cls}" ${isAns?'':` onclick="qAns(${qIdx},${oi})"`}><span class="qltr">${l}</span><span>${o.substring(3)}</span></button>`;
+  }).join('');
+  const ratH=isAns?q.rats.map(r=>`<div class="rat-row ${r.ok?'rok':'rno'}"><span class="ri">${r.ok?'✓':'✗'}</span><span><b>${r.l}.</b> ${r.w}</span></div>`).join(''):'';
+  w.innerHTML=`<div class="qprog"><div class="qp-track"><div class="qp-fill" style="width:${pct}%"></div></div><span class="qp-lbl">${qIdx+1}/${QUESTIONS.length}</span><span class="qscore-d">${qScore}/${qIdx}</span></div>
+  <div class="qcard">
+    <div class="qcard-top">
+      <span class="qtag" style="background:${cbg};color:${ctxt};">${q.cat}</span>
+      <div class="qnum">Question ${qIdx+1} of ${QUESTIONS.length}</div>
+      <div class="qtext">${q.q}</div>
+    </div>
+    <div class="qopts">${optsH}</div>
+    <div class="rat-wrap ${isAns?'show':''}">${ratH}</div>
+    <div class="nbtn ${isAns?'show':''}"><button onclick="qNext()">${qIdx<QUESTIONS.length-1?'Next question →':'See results →'}</button></div>
+  </div>`;
+}
+function qAns(qi,oi){if(qAnswered[qi]!==undefined)return;qAnswered[qi]=oi;if(oi===QUESTIONS[qi].cor)qScore++;renderQ();}
+function qNext(){qIdx++;renderQ();}
+function showResult(){
+  const total=QUESTIONS.length;
+  const pct=Math.round(qScore/total*100);
+  const msg=pct>=90?'🏆 Outstanding! You have mastered insurance basics.':pct>=80?'🎉 Excellent — you\'re well prepared.':pct>=70?'👍 Good progress — review missed topics.':pct>=60?'📖 Keep studying — use the scenarios and flashcards.':'🔄 More review needed — start with the Key Terms tab.';
+  const cats={};
+  QUESTIONS.forEach((q,i)=>{if(!cats[q.cat])cats[q.cat]={r:0,t:0};cats[q.cat].t++;if(qAnswered[i]===q.cor)cats[q.cat].r++;});
+  const bdH=Object.entries(cats).map(([c,s])=>{const p=Math.round(s.r/s.t*100);const ok=p>=70;return `<div class="rb-cat" style="background:${ok?'#d1fae5':'#ffe4e6'};color:${ok?'#065f46':'#9f1239'};border-color:${ok?'#34d399':'#fda4af'}">${c}: ${s.r}/${s.t}</div>`;}).join('');
+  document.getElementById('quizWrap').innerHTML=`<div class="result-box"><div class="rb-score">${qScore}/${total}</div><div class="rb-pct">${pct}%</div><div class="rb-msg">${msg}</div><div class="rb-cats">${bdH}</div><div class="rb-btns"><button class="rb-btn p" onclick="initQuiz()">↺ Retake</button><button class="rb-btn o" onclick="showPage('terms',document.querySelector('.ntab'))">📖 Review terms</button><button class="rb-btn o" onclick="showPage('game',document.querySelectorAll('.ntab')[4])">🎯 Play game</button></div></div>`;
+}
+
+// ══════════════════════════════════════
+// NAV
+// ══════════════════════════════════════
+function showPage(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  btn.classList.add('on');
+  if(id==='flash')initFlash();
+  if(id==='quiz')initQuiz();
+  if(id==='game')initGame();
+}
+
+// INIT
+renderTerms();
+renderScenarios();
+buildPlanBuilder();
+renderPlanTypes();
+initFlash();
+initGame();
+updateMeter(0);
+</script>
+</body>
+</html>
